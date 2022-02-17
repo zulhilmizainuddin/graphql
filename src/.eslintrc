@@ -1,0 +1,23 @@
+{
+  "parser": "@babel/eslint-parser",
+  "extends": [
+    "airbnb-base"
+  ],
+  "env": {
+    "node": true,
+    "es6": true,
+    "mocha": true
+  },
+  "plugins": [
+
+  ],
+  "rules": {
+    "import/prefer-default-export": "off",
+    "max-len": [2, 120, {
+      "ignoreStrings": true
+    }]
+  },
+  "parserOptions": {
+    "sourceType": "module"
+  }
+}
