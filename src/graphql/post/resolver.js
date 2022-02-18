@@ -1,3 +1,7 @@
+import { PubSub } from 'graphql-subscriptions';
+
+const pubsub = new PubSub();
+
 const posts = [
   {
     id: 1, authorId: 1, title: 'Introduction to GraphQL', votes: 2,
@@ -28,7 +32,18 @@ export const resolvers = {
 
       post.votes += 1;
 
+      pubsub.publish('POST_UPVOTED', {
+        postUpvoted: {
+          ...post,
+        },
+      });
+
       return post;
+    },
+  },
+  Subscription: {
+    postUpvoted: {
+      subscribe: () => pubsub.asyncIterator(['POST_UPVOTED']),
     },
   },
 };
