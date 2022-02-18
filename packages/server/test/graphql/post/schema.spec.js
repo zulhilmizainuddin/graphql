@@ -1,11 +1,11 @@
 import { expect } from 'chai';
 
-import { graphqlSync, printSchema } from 'graphql'
+import { graphqlSync, printSchema } from 'graphql';
 
 import { loadSchemaSync } from '@graphql-tools/load';
 import { GraphQLFileLoader } from '@graphql-tools/graphql-file-loader';
-import { makeExecutableSchema } from '@graphql-tools/schema'
-import { addMocksToSchema } from '@graphql-tools/mock'
+import { makeExecutableSchema } from '@graphql-tools/schema';
+import { addMocksToSchema } from '@graphql-tools/mock';
 
 describe('schema.gql', () => {
   let mockSchema;
@@ -24,7 +24,7 @@ describe('schema.gql', () => {
         String: () => 'Hello',
       },
       preserveResolvers: false,
-      resolvers: store => ({
+      resolvers: (store) => ({
         Mutation: {
           upvotePost: (_, { postId }) => {
             const votes = store.get('Post', 'ROOT', 'votes');
@@ -52,7 +52,7 @@ describe('schema.gql', () => {
 
     const { data: { posts } } = graphqlSync(mockSchema, query);
     const [post] = posts;
-    
+
     expect(posts).to.not.be.empty;
 
     expect(post).to.deep.equal({
