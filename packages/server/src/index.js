@@ -1,4 +1,4 @@
-import 'regenerator-runtime/runtime';
+import 'regenerator-runtime';
 
 import express from 'express';
 import http from 'http';
