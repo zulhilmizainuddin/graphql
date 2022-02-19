@@ -1,6 +1,17 @@
 directive @upper on FIELD_DEFINITION
 
-type Author {
+enum CacheControlScope {
+  PUBLIC
+  PRIVATE
+}
+
+directive @cacheControl(
+  maxAge: Int
+  scope: CacheControlScope
+  inheritMaxAge: Boolean
+) on FIELD_DEFINITION | OBJECT | INTERFACE | UNION
+
+type Author @cacheControl(maxAge: 10) {
   id: Int!
   firstName: String
   lastName: String @upper

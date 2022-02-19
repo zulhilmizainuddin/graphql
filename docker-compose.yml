@@ -24,7 +24,6 @@ services:
 
   mongo:
     image: mongo:5.0.6
-    restart: always
     ports:
       - 27017:27017
     volumes:
@@ -33,3 +32,8 @@ services:
      - MONGO_INITDB_DATABASE=graphql
      - MONGO_INITDB_ROOT_USERNAME=admin
      - MONGO_INITDB_ROOT_PASSWORD=password
+
+  redis:
+    image: redis:6.2.6
+    ports:
+      - 6379:6379

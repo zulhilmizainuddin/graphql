@@ -2,11 +2,14 @@ import 'regenerator-runtime';
 
 import express from 'express';
 import http from 'http';
+import Redis from 'ioredis';
+import responseCachePlugin from 'apollo-server-plugin-response-cache';
 
 import { ApolloServer } from 'apollo-server-express';
 import { execute, subscribe } from 'graphql';
 import { SubscriptionServer } from 'subscriptions-transport-ws';
 import { MongoClient } from 'mongodb';
+import { BaseRedisCache } from 'apollo-server-cache-redis';
 
 import { authorLoader } from './graphql/author/resolver';
 import { compositeSchema } from './compositeSchema';
@@ -37,15 +40,24 @@ import { Posts } from './graphql/post/Posts';
     dataSources: () => ({
       posts: new Posts(mongoClient.db().collection('posts')),
     }),
-    plugins: [{
-      async serverWillStart() {
-        return {
-          async drainServer() {
-            subscriptionServer.close();
-          },
-        };
+    cache: new BaseRedisCache({
+      client: new Redis({
+        host: '127.0.0.1',
+        port: 6379,
+      }),
+    }),
+    plugins: [
+      responseCachePlugin(),
+      {
+        async serverWillStart() {
+          return {
+            async drainServer() {
+              subscriptionServer.close();
+            },
+          };
+        },
       },
-    }],
+    ],
   });
 
   await server.start();
