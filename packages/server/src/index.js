@@ -6,13 +6,19 @@ import http from 'http';
 import { ApolloServer } from 'apollo-server-express';
 import { execute, subscribe } from 'graphql';
 import { SubscriptionServer } from 'subscriptions-transport-ws';
+import { MongoClient } from 'mongodb';
 
 import { authorLoader } from './graphql/author/resolver';
 import { compositeSchema } from './compositeSchema';
+import { Posts } from './graphql/post/Posts';
 
 (async () => {
   const app = express();
   const httpServer = http.createServer(app);
+
+  const mongoClient = new MongoClient('mongodb://server:password@localhost:27017/graphql');
+
+  await mongoClient.connect();
 
   const subscriptionServer = SubscriptionServer.create({
     schema: compositeSchema,
@@ -27,6 +33,9 @@ import { compositeSchema } from './compositeSchema';
     schema: compositeSchema,
     context: ({
       authorLoader: authorLoader(),
+    }),
+    dataSources: () => ({
+      posts: new Posts(mongoClient.db().collection('posts')),
     }),
     plugins: [{
       async serverWillStart() {

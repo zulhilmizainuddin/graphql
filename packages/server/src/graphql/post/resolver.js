@@ -1,11 +1,8 @@
 import * as Logger from 'bunyan';
 
-import { PubSub } from 'graphql-subscriptions';
 import { KafkaPubSub } from 'graphql-kafka-subscriptions';
 
-const localPubSub = new PubSub();
-
-const kafkaPubSub = new KafkaPubSub({
+const pubsub = new KafkaPubSub({
   host: 'localhost',
   port: '9092',
   topic: 'post_events',
@@ -20,39 +17,20 @@ const kafkaPubSub = new KafkaPubSub({
   // },
 });
 
-const pubsub = localPubSub || kafkaPubSub;
-
-const posts = [
-  {
-    id: 1, authorId: 1, title: 'Introduction to GraphQL', votes: 2,
-  },
-  {
-    id: 2, authorId: 2, title: 'Welcome to Meteor', votes: 3,
-  },
-  {
-    id: 3, authorId: 2, title: 'Advanced GraphQL', votes: 1,
-  },
-  {
-    id: 4, authorId: 3, title: 'Launchpad is Cool', votes: 7,
-  },
-];
-
 export const resolvers = {
   Query: {
-    posts: () => posts,
-    postsByAuthor: (_, { id }) => posts.filter((post) => post.authorId === id),
+    posts: async (_, __, { dataSources: { posts } }) => posts.getPosts(),
+    postsByAuthor: async (_, { id }, { dataSources: { posts } }) => posts.getPostsByAuthorId(id),
   },
   Mutation: {
-    upvotePost: (_, { postId }) => {
-      const post = posts.find((post) => post.id === postId);
+    upvotePost: async (_, { postId }, { dataSources: { posts } }) => {
+      const post = await posts.getUpdatedPostById(postId);
 
       if (!post) {
         throw new Error(`Couldn't find post with id ${postId}`);
       }
 
-      post.votes += 1;
-
-      pubsub.publish('POST_UPVOTED', {
+      await pubsub.publish('POST_UPVOTED', {
         postUpvoted: {
           ...post,
         },
