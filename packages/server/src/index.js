@@ -26,7 +26,7 @@ import { compositeSchema } from './compositeSchema';
   const server = new ApolloServer({
     schema: compositeSchema,
     context: ({
-      authorLoader,
+      authorLoader: authorLoader(),
     }),
     plugins: [{
       async serverWillStart() {
