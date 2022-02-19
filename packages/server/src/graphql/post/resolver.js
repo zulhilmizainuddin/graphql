@@ -1,6 +1,26 @@
-import { PubSub } from 'graphql-subscriptions';
+import * as Logger from 'bunyan';
 
-const pubsub = new PubSub();
+import { PubSub } from 'graphql-subscriptions';
+import { KafkaPubSub } from 'graphql-kafka-subscriptions';
+
+const localPubSub = new PubSub();
+
+const kafkaPubSub = new KafkaPubSub({
+  host: 'localhost',
+  port: '9092',
+  topic: 'post_events',
+  groupId: 'post_events_subscriber',
+  logger: Logger.createLogger({
+    name: 'pubsub',
+    stream: process.stdout,
+    level: 'debug',
+  }),
+  // globalConfig: {
+  //   debug: 'consumer',
+  // },
+});
+
+const pubsub = localPubSub || kafkaPubSub;
 
 const posts = [
   {
