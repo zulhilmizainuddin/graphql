@@ -14,6 +14,7 @@ import { BaseRedisCache } from 'apollo-server-cache-redis';
 import { authorLoader } from './graphql/author/resolver';
 import { compositeSchema } from './compositeSchema';
 import { Posts } from './graphql/post/Posts';
+import { Users } from './graphql/user/Users';
 
 (async () => {
   const app = express();
@@ -39,6 +40,7 @@ import { Posts } from './graphql/post/Posts';
     }),
     dataSources: () => ({
       posts: new Posts(mongoClient.db().collection('posts')),
+      users: new Users(),
     }),
     cache: new BaseRedisCache({
       client: new Redis({

@@ -4,7 +4,7 @@ import { delegateToSchema } from '@graphql-tools/delegate';
 
 import { generateExecutableSchemasMap } from './executableSchema';
 
-const modules = ['author', 'post'];
+const modules = ['author', 'post', 'user'];
 
 const executableSchemaMap = generateExecutableSchemasMap(`${__dirname}/graphql`, modules);
 

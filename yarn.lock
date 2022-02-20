@@ -2489,6 +2489,17 @@ apollo-datasource-mongodb@^0.5.2:
     bson "^4.1.0"
     dataloader "^1.4.0"
 
+apollo-datasource-rest@^3.5.1:
+  version "3.5.1"
+  resolved "https://registry.yarnpkg.com/apollo-datasource-rest/-/apollo-datasource-rest-3.5.1.tgz#1ed68892ffe122f4ed049170498191545a9d10cb"
+  integrity sha512-M23yrpBQWsn3ko2CntQoEnd7K+9F/EVMWiAOBG62Z8IlBp44mJG3ta2YYyZykWHCx3vXFRSo/bD32ar1JBb2yw==
+  dependencies:
+    apollo-datasource "^3.3.1"
+    apollo-server-caching "^3.3.0"
+    apollo-server-env "^4.2.1"
+    apollo-server-errors "^3.3.1"
+    http-cache-semantics "^4.1.0"
+
 apollo-datasource@^0.3.1:
   version "0.3.1"
   resolved "https://registry.yarnpkg.com/apollo-datasource/-/apollo-datasource-0.3.1.tgz#4b7ec4c2dd7d08eb7edc865b95fd46b83a4679fd"
