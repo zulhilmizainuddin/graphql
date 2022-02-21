@@ -10,4 +10,4 @@ WORKDIR /app/packages/server/build
 
 EXPOSE 4000
 
-CMD ["yarn", "start"]
+CMD ["yarn", "start:build"]

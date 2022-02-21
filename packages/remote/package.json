@@ -4,7 +4,8 @@
   "description": "",
   "main": "index.js",
   "scripts": {
-    "start:dev": "node --require @babel/register src/index.js"
+    "start": "node --require @babel/register src/index.js",
+    "start:subgraph": "yarn start"
   },
   "keywords": [],
   "author": "",

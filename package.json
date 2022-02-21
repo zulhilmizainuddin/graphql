@@ -7,6 +7,8 @@
   "scripts": {
     "build": "lerna run build",
     "lint": "eslint --fix .",
+    "start:graph": "lerna run start:graph",
+    "start:subgraph": "lerna run start:subgraph",
     "test": "lerna run test"
   },
   "keywords": [],
