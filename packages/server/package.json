@@ -27,6 +27,7 @@
     "apollo-datasource-rest": "^3.5.1",
     "apollo-server-cache-redis": "^3.3.1",
     "apollo-server-express": "^3.6.3",
+    "apollo-server-plugin-operation-duration": "^0.1.1",
     "apollo-server-plugin-response-cache": "^3.5.1",
     "bunyan": "^1.8.15",
     "cross-undici-fetch": "^0.1.24",
@@ -37,6 +38,7 @@
     "graphql-subscriptions": "^2.0.0",
     "ioredis": "^4.28.5",
     "mongodb": "^4.4.0",
+    "prom-client": "^14.0.1",
     "regenerator-runtime": "^0.13.9",
     "subscriptions-transport-ws": "^0.11.0"
   },
