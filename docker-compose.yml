@@ -37,3 +37,17 @@ services:
     image: redis:6.2.6
     ports:
       - 6379:6379
+
+  remote:
+    build:
+      context: .
+      dockerfile: ./packages/remote/Dockerfile
+    ports:
+      - 4001:4001
+
+  rest:
+    build:
+      context: .
+      dockerfile: ./packages/rest/Dockerfile
+    ports:
+      - 4002:4002

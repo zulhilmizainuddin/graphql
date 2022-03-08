@@ -6,8 +6,8 @@ COPY . .
 
 RUN yarn install && yarn build
 
-WORKDIR /app/packages/server/build
+WORKDIR /app/packages/remote/build
 
-EXPOSE 4000
+EXPOSE 4001
 
 CMD ["yarn", "start:build"]

@@ -67,7 +67,7 @@ import { registerMetrics, histogram } from './monitoring';
       ApolloServerOperationDuration({
         callback: ({ operationName, operationDuration }) => {
           if (operationName !== 'IntrospectionQuery') {
-            histogram.labels(operationName).observe(operationDuration);
+            histogram.labels(operationName || 'unnamed').observe(operationDuration);
           }
         },
       }),

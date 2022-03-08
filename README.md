@@ -4,7 +4,7 @@ This monorepo is an example GraphQL project for reference, learning and experime
 
 ## Getting Started
 
-Start Zookeeper, Kafka, MongoDB and Redis.
+Start Zookeeper, Kafka, MongoDB, Redis, Remote GraphQL service and REST service.
 
 ```sh
 $ docker-compose up
@@ -16,16 +16,11 @@ Install packages.
 $ yarn install
 ```
 
-Start remote GraphQL service and REST service.
-
-```sh
-$ yarn start:subgraph
-```
-
 Start main gateway GraphQL service.
 
 ```sh
-$ yarn start:graph
+$ cd packages/server
+$ yarn start
 ```
 
 Load Apollo Studio in browser at http://localhost:4000/graphql.

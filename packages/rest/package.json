@@ -4,8 +4,9 @@
   "description": "",
   "main": "index.js",
   "scripts": {
+    "build": "rimraf build && babel src -d build --copy-files",
     "start": "node --require @babel/register src/index.js",
-    "start:subgraph": "yarn start"
+    "start:build": "node build/index.js"
   },
   "keywords": [],
   "author": "",

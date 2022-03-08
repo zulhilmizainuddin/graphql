@@ -7,7 +7,6 @@
     "build": "rimraf build && babel src -d build --copy-files",
     "start": "node --require @babel/register src/index.js",
     "start:build": "node build/index.js",
-    "start:graph": "yarn start",
     "test": "nyc mocha 'test/**/*.spec.js' --require @babel/register --require @babel/polyfill --exit"
   },
   "keywords": [],
