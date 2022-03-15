@@ -45,6 +45,20 @@ services:
     network_mode: host
     volumes:
       - ./prometheus.yml:/etc/prometheus/prometheus.yml:ro
+    depends_on:
+      - node-exporter
+
+  node-exporter:
+    image: prom/node-exporter:v1.3.1
+    ports:
+      - 9100:9100
+
+  grafana:
+    image: grafana/grafana:8.4.3
+    ports:
+      - 3000:3000
+    depends_on:
+      - prometheus
 
   remote:
     build:

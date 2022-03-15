@@ -1,8 +1,14 @@
 scrape_configs:
-  - job_name: 'graphql'
+  - job_name: graphql
     scrape_interval: 1s
     static_configs:
       - targets:
-          - 'localhost:4000'
+          - localhost:4000
         labels:
-          group: 'server'
+          group: server
+
+  - job_name: node
+    scrape_interval: 1s
+    static_configs:
+      - targets:
+          - localhost:9100
