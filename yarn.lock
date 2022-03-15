@@ -2662,6 +2662,32 @@ apollo-server-core@^3.6.3:
     sha.js "^2.4.11"
     uuid "^8.0.0"
 
+apollo-server-core@^3.6.4:
+  version "3.6.4"
+  resolved "https://registry.yarnpkg.com/apollo-server-core/-/apollo-server-core-3.6.4.tgz#dcf3925173a8e9a501ed3975654cb2ed58af3710"
+  integrity sha512-zttpu/3IeDGhRgIGK84z9HwTgvETDl9zntXiQ0G1tBJgOhDvehSkMiOmy+FKR1HW9+94ao1Olz6ZIyhP0dvzSg==
+  dependencies:
+    "@apollographql/apollo-tools" "^0.5.1"
+    "@apollographql/graphql-playground-html" "1.6.29"
+    "@graphql-tools/mock" "^8.1.2"
+    "@graphql-tools/schema" "^8.0.0"
+    "@josephg/resolvable" "^1.0.0"
+    apollo-datasource "^3.3.1"
+    apollo-reporting-protobuf "^3.3.0"
+    apollo-server-caching "^3.3.0"
+    apollo-server-env "^4.2.1"
+    apollo-server-errors "^3.3.1"
+    apollo-server-plugin-base "^3.5.1"
+    apollo-server-types "^3.5.1"
+    async-retry "^1.2.1"
+    fast-json-stable-stringify "^2.1.0"
+    graphql-tag "^2.11.0"
+    lodash.sortby "^4.7.0"
+    loglevel "^1.6.8"
+    lru-cache "^6.0.0"
+    sha.js "^2.4.11"
+    uuid "^8.0.0"
+
 apollo-server-env@2.2.0:
   version "2.2.0"
   resolved "https://registry.yarnpkg.com/apollo-server-env/-/apollo-server-env-2.2.0.tgz#5eec5dbf46581f663fd6692b2e05c7e8ae6d6034"
@@ -4711,6 +4737,11 @@ graphql-ws@^5.4.1:
   version "5.6.0"
   resolved "https://registry.yarnpkg.com/graphql-ws/-/graphql-ws-5.6.0.tgz#8914d0c0a7be0cc3e8fd486ea8a148e500b2ff29"
   integrity sha512-Kz/4z1u9yGKWMtzlvia9wW8AJGjx68OyCCV40dabYq1OeyUxgU9t8Ll43vLAje7TYiLwZSwGbvtHviHaPyGYxw==
+
+graphql-ws@^5.6.3:
+  version "5.6.3"
+  resolved "https://registry.yarnpkg.com/graphql-ws/-/graphql-ws-5.6.3.tgz#32321594a7b744755df992f24afccc84143b4b7d"
+  integrity sha512-ZolWOi6bzI35ovGROCZROB9nDbwZiJdIsaPdzW/jkICCGNb3qL/33IONY/yQiBa+Je2uA11HfY4Uxse4+/ePYA==
 
 graphql@^14.0.0:
   version "14.7.0"

@@ -7,8 +7,9 @@ import responseCachePlugin from 'apollo-server-plugin-response-cache';
 import ApolloServerOperationDuration from 'apollo-server-plugin-operation-duration';
 
 import { ApolloServer } from 'apollo-server-express';
-import { execute, subscribe } from 'graphql';
-import { SubscriptionServer } from 'subscriptions-transport-ws';
+import { ApolloServerPluginDrainHttpServer } from 'apollo-server-core';
+import { WebSocketServer } from 'ws';
+import { useServer } from 'graphql-ws/lib/use/ws';
 import { MongoClient } from 'mongodb';
 import { BaseRedisCache } from 'apollo-server-cache-redis';
 
@@ -25,18 +26,16 @@ import { registerMetrics, histogram } from './monitoring';
 
   const httpServer = http.createServer(app);
 
-  const mongoClient = new MongoClient('mongodb://server:password@localhost:27017/graphql');
-
-  await mongoClient.connect();
-
-  const subscriptionServer = SubscriptionServer.create({
-    schema: compositeSchema,
-    execute,
-    subscribe,
-  }, {
+  const wsServer = new WebSocketServer({
     server: httpServer,
     path: '/graphql',
   });
+
+  const serverCleanup = useServer({ schema: compositeSchema }, wsServer);
+
+  const mongoClient = new MongoClient('mongodb://server:password@localhost:27017/graphql');
+
+  await mongoClient.connect();
 
   const server = new ApolloServer({
     schema: compositeSchema,
@@ -54,12 +53,13 @@ import { registerMetrics, histogram } from './monitoring';
       }),
     }),
     plugins: [
+      ApolloServerPluginDrainHttpServer({ httpServer }),
       responseCachePlugin(),
       {
         async serverWillStart() {
           return {
             async drainServer() {
-              subscriptionServer.close();
+              await serverCleanup.dispose();
             },
           };
         },
