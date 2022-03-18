@@ -62,6 +62,8 @@ services:
       - GF_AUTH_ANONYMOUS_ORG_ROLE=Admin
     volumes:
       - ./datasource.yml:/etc/grafana/provisioning/datasources/datasource.yml
+      - ./dashboard.yml:/etc/grafana/provisioning/dashboards/dashboard.yml
+      - ./dashboard.json:/var/lib/grafana/dashboards/dashboard.json
     depends_on:
       - prometheus
 
