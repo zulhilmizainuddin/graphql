@@ -19,7 +19,7 @@ $ yarn install
 Start main gateway GraphQL service.
 
 ```sh
-$ cd packages/server
+$ cd packages/gateway
 $ yarn start
 ```
 

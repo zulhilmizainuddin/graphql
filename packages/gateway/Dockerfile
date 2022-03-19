@@ -6,7 +6,7 @@ COPY . .
 
 RUN yarn install && yarn build
 
-WORKDIR /app/packages/server/build
+WORKDIR /app/packages/gateway/build
 
 EXPOSE 4000
 

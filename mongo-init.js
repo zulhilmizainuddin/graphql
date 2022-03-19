@@ -1,5 +1,5 @@
 db.createUser({
-  user: 'server',
+  user: 'gateway',
   pwd: 'password',
   roles: [
     {

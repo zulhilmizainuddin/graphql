@@ -33,7 +33,7 @@ import { registerMetrics, histogram } from './monitoring';
 
   const serverCleanup = useServer({ schema: compositeSchema }, wsServer);
 
-  const mongoClient = new MongoClient('mongodb://server:password@localhost:27017/graphql');
+  const mongoClient = new MongoClient('mongodb://gateway:password@localhost:27017/graphql');
 
   await mongoClient.connect();
 
