@@ -4,7 +4,16 @@ This monorepo is an example GraphQL project for reference, learning and experime
 
 ## Getting Started
 
-Start Zookeeper, Kafka, MongoDB, Redis, Remote GraphQL service and REST service.
+Run Docker Compose to start the following services:
+- Zookeeper
+- Kafka
+- MongoDB
+- Redis
+- Prometheus (http://localhost:9090)
+- Node Exporter
+- Grafana (http://localhost:3000)
+- Remote GraphQL service (http://localhost:4001)
+- REST service (http://localhost:4002)
 
 ```sh
 $ docker-compose up
