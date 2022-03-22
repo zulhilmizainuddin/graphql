@@ -27,7 +27,7 @@ services:
     ports:
       - 27017:27017
     volumes:
-      - ./mongo-init.js:/docker-entrypoint-initdb.d/mongo-init.js:ro
+      - ./infra/mongo/mongo-init.js:/docker-entrypoint-initdb.d/mongo-init.js:ro
     environment:
      - MONGO_INITDB_DATABASE=graphql
      - MONGO_INITDB_ROOT_USERNAME=admin
@@ -44,7 +44,7 @@ services:
     #   - 9090:9090
     network_mode: host
     volumes:
-      - ./prometheus.yml:/etc/prometheus/prometheus.yml:ro
+      - ./infra/prometheus/prometheus.yml:/etc/prometheus/prometheus.yml:ro
     depends_on:
       - node-exporter
 
@@ -60,10 +60,11 @@ services:
     environment:
       - GF_AUTH_ANONYMOUS_ENABLED=true
       - GF_AUTH_ANONYMOUS_ORG_ROLE=Admin
+      - GF_DASHBOARDS_DEFAULT_HOME_DASHBOARD_PATH=/var/lib/grafana/dashboards/dashboard.json
     volumes:
-      - ./datasource.yml:/etc/grafana/provisioning/datasources/datasource.yml
-      - ./dashboard.yml:/etc/grafana/provisioning/dashboards/dashboard.yml
-      - ./dashboard.json:/var/lib/grafana/dashboards/dashboard.json
+      - ./infra/grafana/datasource.yml:/etc/grafana/provisioning/datasources/datasource.yml
+      - ./infra/grafana/dashboard.yml:/etc/grafana/provisioning/dashboards/dashboard.yml
+      - ./infra/grafana/dashboard.json:/var/lib/grafana/dashboards/dashboard.json
     depends_on:
       - prometheus
 
