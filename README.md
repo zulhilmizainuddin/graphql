@@ -33,3 +33,5 @@ $ yarn start
 ```
 
 Load Apollo Studio in browser at http://localhost:4000/graphql.
+
+**Set subscriptions implementation to `graphql-ws` under Apollo Studio connection settings to enable subscriptions.**
