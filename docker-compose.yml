@@ -15,10 +15,12 @@ services:
     ports:
       - 9092:9092
     environment:
-      KAFKA_ADVERTISED_HOST_NAME: localhost
+      # KAFKA_ADVERTISED_HOST_NAME: localhost
+      KAFKA_ADVERTISED_HOST_NAME: kafka
       KAFKA_ZOOKEEPER_CONNECT: zookeeper:2181
       KAFKA_CREATE_TOPICS: >
-        post_events:1:1
+        post_events:1:1,
+        book_events:1:1
     depends_on:
       - zookeeper
 
@@ -74,6 +76,8 @@ services:
       dockerfile: ./packages/remote/Dockerfile
     ports:
       - 4001:4001
+    depends_on:
+      - kafka
 
   rest:
     build:

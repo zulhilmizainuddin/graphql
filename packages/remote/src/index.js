@@ -1,35 +1,101 @@
-import { ApolloServer, gql } from 'apollo-server';
+import 'regenerator-runtime';
 
-const typeDefs = gql`
-  type Book {
-    title: String
-    author: String
-  }
+import express from 'express';
+import http from 'http';
 
-  type Query {
-    books: [Book]
+import { ApolloServer, gql } from 'apollo-server-express';
+import { ApolloServerPluginDrainHttpServer } from 'apollo-server-core';
+import { WebSocketServer } from 'ws';
+import { useServer } from 'graphql-ws/lib/use/ws';
+import { KafkaPubSub } from 'graphql-kafka-subscriptions';
+import { makeExecutableSchema } from '@graphql-tools/schema';
+
+(async () => {
+  const pubsub = new KafkaPubSub({
+    host: 'kafka',
+    port: '9092',
+    topic: 'book_events',
+    groupId: 'book_events_subscriber',
+  });
+
+  const typeDefs = gql`
+    type Book {
+      title: String
+      author: String
+    }
+
+    type Query {
+      books: [Book]
+    }
+
+    type Subscription {
+      books: [Book]
   }
 `;
 
-const books = [
-  {
-    title: 'The Awakening',
-    author: 'Kate Chopin',
-  },
-  {
-    title: 'City of Glass',
-    author: 'Paul Auster',
-  },
-];
+  const books = [
+    {
+      title: 'The Awakening',
+      author: 'Kate Chopin',
+    },
+    {
+      title: 'City of Glass',
+      author: 'Paul Auster',
+    },
+  ];
 
-const resolvers = {
-  Query: {
-    books: () => books,
-  },
-};
+  const resolvers = {
+    Query: {
+      books: async () => {
+        await pubsub.publish('BOOKS', {
+          books,
+        });
 
-const server = new ApolloServer({ typeDefs, resolvers });
+        return books;
+      },
+    },
+    Subscription: {
+      books: {
+        subscribe: () => pubsub.asyncIterator(['BOOKS']),
+      },
+    },
+  };
 
-server.listen({ port: 4001 }).then(({ url }) => {
-  console.log(`🚀  Server ready at ${url}`);
-});
+  const schema = makeExecutableSchema({ typeDefs, resolvers });
+
+  const app = express();
+
+  const httpServer = http.createServer(app);
+
+  const wsServer = new WebSocketServer({
+    server: httpServer,
+    path: '/graphql',
+  });
+
+  const serverCleanup = useServer({ schema }, wsServer);
+
+  const server = new ApolloServer({
+    schema,
+    plugins: [
+      ApolloServerPluginDrainHttpServer({ httpServer }),
+      {
+        async serverWillStart() {
+          return {
+            async drainServer() {
+              await serverCleanup.dispose();
+            },
+          };
+        },
+      },
+    ],
+  });
+
+  await server.start();
+
+  server.applyMiddleware({ app });
+
+  const PORT = 4001;
+  httpServer.listen(PORT, () => {
+    console.log(`🚀 Server ready at http://localhost:${PORT}${server.graphqlPath}`);
+  });
+})();
