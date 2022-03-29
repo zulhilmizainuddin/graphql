@@ -12,7 +12,7 @@ Run Docker Compose to start the following services:
 - Prometheus (http://localhost:9090)
 - Node Exporter
 - Grafana (http://localhost:3000)
-- Remote GraphQL service (http://localhost:4001)
+- Remote GraphQL service (http://localhost:4001/graphql)
 - REST service (http://localhost:4002)
 
 ```sh
