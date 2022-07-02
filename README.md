@@ -5,8 +5,8 @@ This monorepo is an example GraphQL project for reference, learning and experime
 ## Getting Started
 
 Run Docker Compose to start the following services:
-- Zookeeper
-- Kafka
+- ~~Zookeeper~~
+- ~~Kafka~~
 - MongoDB
 - Redis
 - Prometheus (http://localhost:9090)
@@ -19,10 +19,12 @@ Run Docker Compose to start the following services:
 $ docker-compose up
 ```
 
-Add `kafka` to local machine `/etc/hosts`.
+~~Add `kafka` to local machine `/etc/hosts`.~~
+Add `redis` to local machine `/etc/hosts`.
 
 ```
 kafka       127.0.0.1
+redis       127.0.0.1
 ```
 
 Install packages.

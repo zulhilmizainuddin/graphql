@@ -7,15 +7,22 @@ import { ApolloServer, gql } from 'apollo-server-express';
 import { ApolloServerPluginDrainHttpServer } from 'apollo-server-core';
 import { WebSocketServer } from 'ws';
 import { useServer } from 'graphql-ws/lib/use/ws';
-import { KafkaPubSub } from 'graphql-kafka-subscriptions';
+// import { KafkaPubSub } from 'graphql-kafka-subscriptions';
+import { RedisPubSub } from 'graphql-redis-subscriptions';
 import { makeExecutableSchema } from '@graphql-tools/schema';
 
 (async () => {
-  const pubsub = new KafkaPubSub({
-    host: 'kafka',
-    port: '9092',
-    topic: 'book_events',
-    groupId: 'book_events_subscriber',
+  // const pubsub = new KafkaPubSub({
+  //   host: 'kafka',
+  //   port: '9092',
+  //   topic: 'book_events',
+  //   groupId: 'book_events_subscriber',
+  // });
+
+  const pubsub = new RedisPubSub({
+    connection: {
+      host: 'redis',
+    },
   });
 
   const typeDefs = gql`
