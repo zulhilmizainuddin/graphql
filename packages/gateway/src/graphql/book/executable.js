@@ -16,6 +16,7 @@ const schema = loadSchemaSync('http://localhost:4001/graphql', {
 const subscriptionClient = createClient({
   url: 'ws://localhost:4001/graphql',
   webSocketImpl: WebSocket,
+  lazy: false,
 });
 
 const httpExecutor = async ({
