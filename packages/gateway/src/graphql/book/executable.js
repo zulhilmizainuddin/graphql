@@ -9,6 +9,8 @@ import { wrapSchema } from '@graphql-tools/wrap';
 import { observableToAsyncIterable } from '@graphql-tools/utils';
 import { createClient } from 'graphql-ws';
 
+import { logger } from '../../logger';
+
 const schema = loadSchemaSync('http://localhost:4001/graphql', {
   loaders: [new UrlLoader()],
 });
@@ -58,7 +60,7 @@ const wsExecutor = async ({
           if (err instanceof Error) {
             observer.error(err);
           } else if (err instanceof Event) {
-            console.log(err);
+            logger.error(err);
             observer.error(new Error(`Socket closed with event ${err.code}`));
           } else if (Array.isArray(err)) {
             // GraphQLError[]

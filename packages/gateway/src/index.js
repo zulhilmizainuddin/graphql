@@ -16,10 +16,14 @@ import { authorLoader } from './graphql/author/resolver';
 import { compositeSchema } from './compositeSchema';
 import { Posts } from './graphql/post/Posts';
 import { Users } from './graphql/user/Users';
+import { logger } from './logger';
 import { registerMetrics, histogram } from './monitoring';
 
 (async () => {
-  const app = fastify();
+  const app = fastify({
+    logger,
+    disableRequestLogging: true,
+  });
 
   app.get('/metrics', registerMetrics);
 
@@ -82,5 +86,5 @@ import { registerMetrics, histogram } from './monitoring';
   const PORT = 4000;
   await app.listen(PORT);
 
-  console.log(`🚀 Server ready at http://localhost:${PORT}${server.graphqlPath}`);
+  logger.info(`🚀 Server ready at http://localhost:${PORT}${server.graphqlPath}`);
 })();
