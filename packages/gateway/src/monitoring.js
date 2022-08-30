@@ -1,8 +1,8 @@
 import { register, Histogram, exponentialBuckets } from 'prom-client';
 
-export const registerMetrics = async (req, res) => {
-  res.set('Content-Type', register.contentType);
-  res.end(await register.metrics());
+export const registerMetrics = async (request, reply) => {
+  reply.header('Content-Type', register.contentType);
+  reply.send(await register.metrics());
 };
 
 export const histogram = new Histogram({
