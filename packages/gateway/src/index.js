@@ -7,7 +7,7 @@ import responseCachePlugin from 'apollo-server-plugin-response-cache';
 import ApolloServerOperationDuration from 'apollo-server-plugin-operation-duration';
 
 import { ApolloServer } from 'apollo-server-express';
-import { ApolloServerPluginDrainHttpServer } from 'apollo-server-core';
+import { ApolloServerPluginDrainHttpServer, ApolloServerPluginLandingPageLocalDefault } from 'apollo-server-core';
 import { WebSocketServer } from 'ws';
 import { useServer } from 'graphql-ws/lib/use/ws';
 import { MongoClient } from 'mongodb';
@@ -70,6 +70,9 @@ import { registerMetrics, histogram } from './monitoring';
             histogram.labels(operationName || 'unnamed').observe(operationDuration);
           }
         },
+      }),
+      ApolloServerPluginLandingPageLocalDefault({
+        embed: true,
       }),
     ],
   });
