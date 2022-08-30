@@ -1,12 +1,11 @@
 import 'regenerator-runtime';
 
-import express from 'express';
-import http from 'http';
+import fastify from 'fastify';
 import Redis from 'ioredis';
 import responseCachePlugin from 'apollo-server-plugin-response-cache';
 import ApolloServerOperationDuration from 'apollo-server-plugin-operation-duration';
 
-import { ApolloServer } from 'apollo-server-express';
+import { ApolloServer } from 'apollo-server-fastify';
 import { ApolloServerPluginDrainHttpServer, ApolloServerPluginLandingPageLocalDefault } from 'apollo-server-core';
 import { WebSocketServer } from 'ws';
 import { useServer } from 'graphql-ws/lib/use/ws';
@@ -20,14 +19,12 @@ import { Users } from './graphql/user/Users';
 import { registerMetrics, histogram } from './monitoring';
 
 (async () => {
-  const app = express();
+  const app = fastify();
 
   app.get('/metrics', registerMetrics);
 
-  const httpServer = http.createServer(app);
-
   const wsServer = new WebSocketServer({
-    server: httpServer,
+    server: app.server,
     path: '/graphql',
   });
 
@@ -53,17 +50,18 @@ import { registerMetrics, histogram } from './monitoring';
       }),
     }),
     plugins: [
-      ApolloServerPluginDrainHttpServer({ httpServer }),
-      responseCachePlugin(),
       {
         async serverWillStart() {
           return {
             async drainServer() {
+              await app.close();
               await serverCleanup.dispose();
             },
           };
         },
       },
+      ApolloServerPluginDrainHttpServer({ httpServer: app.server }),
+      responseCachePlugin(),
       ApolloServerOperationDuration({
         callback: ({ operationName, operationDuration }) => {
           if (operationName !== 'IntrospectionQuery') {
@@ -79,10 +77,10 @@ import { registerMetrics, histogram } from './monitoring';
 
   await server.start();
 
-  server.applyMiddleware({ app });
+  app.register(server.createHandler());
 
   const PORT = 4000;
-  httpServer.listen(PORT, () => {
-    console.log(`🚀 Server ready at http://localhost:${PORT}${server.graphqlPath}`);
-  });
+  await app.listen(PORT);
+
+  console.log(`🚀 Server ready at http://localhost:${PORT}${server.graphqlPath}`);
 })();
