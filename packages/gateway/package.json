@@ -5,7 +5,7 @@
   "main": "index.js",
   "scripts": {
     "build": "rimraf build && babel src -d build --copy-files",
-    "start": "node --require @babel/register src/index.js | yarn pino-pretty",
+    "start": "node --require @babel/register src/index.js 2>&1 | grep --line-buffered -v 'NOT_ALLOWED_BY_USER_ROLE' | yarn pino-pretty",
     "start:build": "node build/index.js",
     "test": "nyc mocha 'test/**/*.spec.js' --require @babel/register --require @babel/polyfill --exit"
   },
