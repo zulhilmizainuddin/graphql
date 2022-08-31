@@ -20,10 +20,11 @@ $ docker-compose up
 ```
 
 ~~Add `kafka` to local machine `/etc/hosts`.~~
-Add `redis` to local machine `/etc/hosts`.
+
+Add `redis` to local machine `/etc/hosts`:
 
 ```
-kafka       127.0.0.1
+# kafka       127.0.0.1
 redis       127.0.0.1
 ```
 
@@ -40,6 +41,6 @@ $ cd packages/gateway
 $ yarn start
 ```
 
-Load Apollo Studio in browser at http://localhost:4000/graphql.
+Load Apollo Sandbox in browser at http://localhost:4000/graphql.
 
-**Set subscriptions implementation to `graphql-ws` under Apollo Studio connection settings to enable subscriptions.**
+**Set subscriptions implementation to `graphql-ws` under Apollo Sandbox connection settings to enable subscriptions.**
