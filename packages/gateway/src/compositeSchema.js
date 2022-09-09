@@ -27,28 +27,38 @@ export const compositeSchema = stitchSchemas({
   `,
   resolvers: {
     Author: {
-      posts: (parent, _, context, info) => delegateToSchema({
-        schema: executableSchemaMap.post,
-        operation: 'query',
-        fieldName: 'postsByAuthor',
-        args: {
-          id: parent.id,
+      posts: {
+        selectionSet: '{ id }',
+        resolve(author, _args, context, info) {
+          return delegateToSchema({
+            schema: executableSchemaMap.post,
+            operation: 'query',
+            fieldName: 'postsByAuthor',
+            args: {
+              id: author.id,
+            },
+            context,
+            info,
+          });
         },
-        context,
-        info,
-      }),
+      },
     },
     Post: {
-      author: (parent, _, context, info) => delegateToSchema({
-        schema: executableSchemaMap.author,
-        operation: 'query',
-        fieldName: 'author',
-        args: {
-          id: parent.authorId,
+      author: {
+        selectionSet: '{ authorId }',
+        resolve(post, _args, context, info) {
+          return delegateToSchema({
+            schema: executableSchemaMap.author,
+            operation: 'query',
+            fieldName: 'author',
+            args: {
+              id: post.authorId,
+            },
+            context,
+            info,
+          });
         },
-        context,
-        info,
-      }),
+      },
     },
   },
 });
