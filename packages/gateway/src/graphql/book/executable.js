@@ -1,7 +1,7 @@
 import WebSocket from 'ws';
 
 import { fetch } from 'cross-undici-fetch';
-import { print, getOperationAST } from 'graphql';
+import { print, getOperationAST, OperationTypeNode } from 'graphql';
 
 import { loadSchemaSync } from '@graphql-tools/load';
 import { UrlLoader } from '@graphql-tools/url-loader';
@@ -76,7 +76,7 @@ const wsExecutor = async ({
 const executor = async (args) => {
   const operation = getOperationAST(args.document, args.operationName);
 
-  if (operation?.operation === 'subscription') {
+  if (operation?.operation === OperationTypeNode.SUBSCRIPTION) {
     return wsExecutor(args);
   }
 

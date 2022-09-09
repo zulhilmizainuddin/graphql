@@ -2,6 +2,8 @@ import { gql } from 'apollo-server-core';
 import { stitchSchemas } from '@graphql-tools/stitch';
 import { delegateToSchema } from '@graphql-tools/delegate';
 
+import { OperationTypeNode } from 'graphql';
+
 import { generateExecutableSchemasMap } from './executableSchema';
 
 const modules = ['author', 'post', 'user', 'book'];
@@ -32,7 +34,7 @@ export const compositeSchema = stitchSchemas({
         resolve(author, _args, context, info) {
           return delegateToSchema({
             schema: executableSchemaMap.post,
-            operation: 'query',
+            operation: OperationTypeNode.QUERY,
             fieldName: 'postsByAuthor',
             args: {
               id: author.id,
@@ -49,7 +51,7 @@ export const compositeSchema = stitchSchemas({
         resolve(post, _args, context, info) {
           return delegateToSchema({
             schema: executableSchemaMap.author,
-            operation: 'query',
+            operation: OperationTypeNode.QUERY,
             fieldName: 'author',
             args: {
               id: post.authorId,
