@@ -3,7 +3,7 @@ import { GraphQLFileLoader } from '@graphql-tools/graphql-file-loader';
 import { addResolversToSchema } from '@graphql-tools/schema';
 
 import { resolvers } from './resolver';
-import { upperDirectivesTransformer } from '../../directives';
+import { upperDirectivesTransformer } from '../../directives/upperDirectives';
 
 const schema = loadSchemaSync(`${__dirname}/schema.gql`, {
   loaders: [new GraphQLFileLoader()],
