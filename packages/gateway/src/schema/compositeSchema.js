@@ -8,7 +8,7 @@ import { generateExecutableSchemasMap } from './executableSchema';
 
 const modules = ['author', 'post', 'user', 'book'];
 
-const executableSchemaMap = generateExecutableSchemasMap(`${__dirname}/modules`, modules);
+const executableSchemaMap = generateExecutableSchemasMap(`${__dirname}/../modules`, modules);
 
 const executableSchemaArray = modules.reduce((arr, module) => {
   arr.push(executableSchemaMap[module]);

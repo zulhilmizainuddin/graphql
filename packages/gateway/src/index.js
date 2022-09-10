@@ -13,7 +13,7 @@ import { MongoClient } from 'mongodb';
 import { BaseRedisCache } from 'apollo-server-cache-redis';
 
 import { authorLoader } from './modules/author/resolver';
-import { compositeSchema } from './compositeSchema';
+import { compositeSchema } from './schema/compositeSchema';
 import { Posts } from './modules/post/Posts';
 import { Users } from './modules/user/Users';
 import { logger } from './utils/logger';
