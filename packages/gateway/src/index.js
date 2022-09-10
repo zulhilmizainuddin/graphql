@@ -16,8 +16,8 @@ import { authorLoader } from './graphql/author/resolver';
 import { compositeSchema } from './compositeSchema';
 import { Posts } from './graphql/post/Posts';
 import { Users } from './graphql/user/Users';
-import { logger } from './logger';
-import { registerMetrics, histogram } from './monitoring';
+import { logger } from './utils/logger';
+import { registerMetrics, histogram } from './utils/monitoring';
 
 (async () => {
   const app = fastify({

@@ -9,7 +9,7 @@ import { wrapSchema } from '@graphql-tools/wrap';
 import { observableToAsyncIterable } from '@graphql-tools/utils';
 import { createClient } from 'graphql-ws';
 
-import { logger } from '../../logger';
+import { logger } from '../../utils/logger';
 
 const schema = loadSchemaSync('http://localhost:4001/graphql', {
   loaders: [new UrlLoader()],
