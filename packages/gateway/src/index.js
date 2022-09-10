@@ -12,10 +12,10 @@ import { useServer } from 'graphql-ws/lib/use/ws';
 import { MongoClient } from 'mongodb';
 import { BaseRedisCache } from 'apollo-server-cache-redis';
 
-import { authorLoader } from './graphql/author/resolver';
+import { authorLoader } from './modules/author/resolver';
 import { compositeSchema } from './compositeSchema';
-import { Posts } from './graphql/post/Posts';
-import { Users } from './graphql/user/Users';
+import { Posts } from './modules/post/Posts';
+import { Users } from './modules/user/Users';
 import { logger } from './utils/logger';
 import { registerMetrics, histogram } from './utils/monitoring';
 
