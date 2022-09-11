@@ -13,6 +13,7 @@
   "author": "",
   "license": "MIT",
   "dependencies": {
+    "@graphql-tools/batch-delegate": "^8.3.9",
     "@graphql-tools/delegate": "^8.4.3",
     "@graphql-tools/graphql-file-loader": "^7.3.3",
     "@graphql-tools/load": "^7.5.1",

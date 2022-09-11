@@ -15,5 +15,6 @@ export const authorLoader = () => new DataLoader((ids) => {
 export const resolvers = {
   Query: {
     author: (_, { id }, context) => context.authorLoader.load(id),
+    authors: (_, { ids }, context) => context.authorLoader.loadMany(ids),
   },
 };

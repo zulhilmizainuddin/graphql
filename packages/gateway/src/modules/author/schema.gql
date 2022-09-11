@@ -19,4 +19,5 @@ type Author @cacheControl(maxAge: 10) {
 
 type Query {
   author(id: Int!): Author
+  authors(ids: [Int!]!): [Author]
 }
