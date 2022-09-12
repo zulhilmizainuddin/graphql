@@ -11,7 +11,7 @@ describe('schema.gql', () => {
   let mockSchema;
 
   before(() => {
-    const typeDefs = printSchema(loadSchemaSync(`${__dirname}/../../../src/graphql/post/schema.gql`, {
+    const typeDefs = printSchema(loadSchemaSync(`${__dirname}/../../../src/modules/post/schema.gql`, {
       loaders: [new GraphQLFileLoader()],
     }));
 
@@ -50,7 +50,11 @@ describe('schema.gql', () => {
       }
       `;
 
-    const { data: { posts } } = graphqlSync(mockSchema, query);
+    const { data: { posts } } = graphqlSync({
+      schema: mockSchema,
+      source: query,
+    });
+
     const [post] = posts;
 
     expect(posts).to.not.be.empty;
@@ -73,7 +77,10 @@ describe('schema.gql', () => {
       }
     `;
 
-    const { data: { upvotePost: { votes } } } = graphqlSync(mockSchema, query);
+    const { data: { upvotePost: { votes } } } = graphqlSync({
+      schema: mockSchema,
+      source: query,
+    });
 
     expect(votes).to.equal(7);
   });
