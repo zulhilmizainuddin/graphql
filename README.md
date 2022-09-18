@@ -2,6 +2,20 @@
 
 This monorepo is an example GraphQL project for reference, learning and experimentation.
 
+## Features
+
+This monorepo contains example of GraphQL gateway implementation using:
+- Apollo Server Fastify
+- Schema stitching
+- Remote schema query delegation and batch query delegation
+- Dataloader
+- REST and MongoDB datasource
+- Query caching with Redis
+- Schema directive
+- Subscription server and client using graphql-ws
+- Subscription publish and subscribe using Redis PubSub
+- Query instrumentation and monitoring using Prometheus and Grafana
+
 ## Getting Started
 
 Run Docker Compose to start the following services:
