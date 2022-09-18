@@ -1,31 +1,35 @@
 import fetch from 'cross-fetch';
+import pino from 'pino';
 import ws from 'ws';
 
 import {
   split, HttpLink, ApolloClient, InMemoryCache, gql,
 } from '@apollo/client';
 import { getMainDefinition } from '@apollo/client/utilities';
-import { WebSocketLink } from '@apollo/client/link/ws';
+import { GraphQLWsLink } from '@apollo/client/link/subscriptions';
+import { createClient } from 'graphql-ws';
+import { OperationTypeNode } from 'graphql';
+
+const logger = pino();
 
 const httpLink = new HttpLink({
   uri: 'http://localhost:4000/graphql',
   fetch,
 });
 
-const wsLink = new WebSocketLink({
-  uri: 'ws://localhost:4000/graphql',
-  options: {
-    reconnect: true,
-  },
-  webSocketImpl: ws,
-});
+const wsLink = new GraphQLWsLink(
+  createClient({
+    url: 'ws://localhost:4000/graphql',
+    webSocketImpl: ws,
+  }),
+);
 
 const splitLink = split(
   ({ query }) => {
     const definition = getMainDefinition(query);
     return (
       definition.kind === 'OperationDefinition'
-      && definition.operation === 'subscription'
+      && definition.operation === OperationTypeNode.SUBSCRIPTION
     );
   },
   wsLink,
@@ -56,10 +60,10 @@ client
   `,
   })
   .then(({ data }) => {
-    console.log(JSON.stringify(data, null, 2));
+    logger.info(data, 'Query response');
   })
   .catch((err) => {
-    console.error(JSON.stringify(err, null, 2));
+    logger.error(err, 'Query error');
   });
 
 client
@@ -77,9 +81,9 @@ client
   })
   .subscribe({
     next({ data }) {
-      console.log(JSON.stringify(data, null, 2));
+      logger.info(data, 'Subscription response');
     },
     error(err) {
-      console.error(JSON.stringify(err, null, 2));
+      logger.error(err, 'Subscription error');
     },
   });
