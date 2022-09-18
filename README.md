@@ -15,6 +15,7 @@ This monorepo contains example of GraphQL gateway implementation using:
 - Subscription server and client using graphql-ws
 - Subscription publish and subscribe using Redis PubSub
 - Query instrumentation and monitoring using Prometheus and Grafana
+- Query tracing using OpenTelemetry and Zipkin exporter
 
 ## Getting Started
 
@@ -26,6 +27,7 @@ Run Docker Compose to start the following services:
 - Prometheus (http://localhost:9090)
 - Node Exporter
 - Grafana (http://localhost:3000)
+- Zipkin (http://localhost:9411)
 - Remote GraphQL service (http://localhost:4001/graphql)
 - REST service (http://localhost:4002)
 

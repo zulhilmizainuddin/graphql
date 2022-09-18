@@ -70,6 +70,12 @@ services:
     depends_on:
       - prometheus
 
+  zipkin:
+    image: openzipkin/zipkin:2.23
+    network_mode: host
+    #  ports:
+    #    - 9411:9411
+
   remote:
     build:
       context: .

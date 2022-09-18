@@ -1,5 +1,7 @@
 import 'regenerator-runtime';
 
+import './utils/opentelemetry';
+
 import fastify from 'fastify';
 import Redis from 'ioredis';
 import responseCachePlugin from 'apollo-server-plugin-response-cache';
