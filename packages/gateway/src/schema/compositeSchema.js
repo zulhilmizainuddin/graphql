@@ -2,10 +2,12 @@ import { gql } from 'apollo-server-core';
 import { stitchSchemas } from '@graphql-tools/stitch';
 import { delegateToSchema } from '@graphql-tools/delegate';
 import { batchDelegateToSchema } from '@graphql-tools/batch-delegate';
+import { TransformQuery } from '@graphql-tools/wrap';
 
 import { OperationTypeNode } from 'graphql';
 
 import { generateExecutableSchemasMap } from './executableSchema';
+import { injectSelections, sortResultsByKeys } from '../utils/batchDelegateHelper';
 
 const modules = ['author', 'post', 'user', 'book'];
 
@@ -56,6 +58,13 @@ export const compositeSchema = stitchSchemas({
             fieldName: 'authors',
             key: post.authorId,
             argsFromKeys: (ids) => ({ ids }),
+            valuesFromResults: sortResultsByKeys('id'),
+            transforms: [
+              new TransformQuery({
+                path: ['authors'],
+                queryTransformer: injectSelections(['id']),
+              }),
+            ],
             context,
             info,
           });
