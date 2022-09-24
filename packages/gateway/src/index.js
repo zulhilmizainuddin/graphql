@@ -14,12 +14,17 @@ import { useServer } from 'graphql-ws/lib/use/ws';
 import { MongoClient } from 'mongodb';
 import { BaseRedisCache } from 'apollo-server-cache-redis';
 
+import { config } from './config/config';
 import { authorLoader } from './modules/author/resolver';
 import { compositeSchema } from './schema/compositeSchema';
 import { Posts } from './modules/post/Posts';
 import { Users } from './modules/user/Users';
 import { logger } from './utils/logger';
 import { registerMetrics, histogram } from './utils/monitoring';
+
+const {
+  PORT, GRAPHQL_PATH, MONGO_URL, REDIS_HOST, REDIS_PORT,
+} = config;
 
 (async () => {
   const app = fastify({
@@ -31,12 +36,12 @@ import { registerMetrics, histogram } from './utils/monitoring';
 
   const wsServer = new WebSocketServer({
     server: app.server,
-    path: '/graphql',
+    path: GRAPHQL_PATH,
   });
 
   const serverCleanup = useServer({ schema: compositeSchema }, wsServer);
 
-  const mongoClient = new MongoClient('mongodb://gateway:password@localhost:27017/graphql');
+  const mongoClient = new MongoClient(MONGO_URL);
 
   await mongoClient.connect();
 
@@ -51,8 +56,8 @@ import { registerMetrics, histogram } from './utils/monitoring';
     }),
     cache: new BaseRedisCache({
       client: new Redis({
-        host: '127.0.0.1',
-        port: 6379,
+        host: REDIS_HOST,
+        port: REDIS_PORT,
       }),
     }),
     plugins: [
@@ -85,7 +90,6 @@ import { registerMetrics, histogram } from './utils/monitoring';
 
   app.register(server.createHandler());
 
-  const PORT = 4000;
   await app.listen(PORT);
 
   logger.info(`🚀 Server ready at http://localhost:${PORT}${server.graphqlPath}`);

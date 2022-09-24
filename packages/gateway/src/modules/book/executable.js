@@ -9,14 +9,17 @@ import { wrapSchema } from '@graphql-tools/wrap';
 import { observableToAsyncIterable } from '@graphql-tools/utils';
 import { createClient } from 'graphql-ws';
 
+import { config } from '../../config/config';
 import { logger } from '../../utils/logger';
 
-const schema = loadSchemaSync('http://localhost:4001/graphql', {
+const { REMOTE_SCHEMA_HTTP_ENDPOINT, REMOTE_SCHEMA_WS_ENDPOINT } = config;
+
+const schema = loadSchemaSync(REMOTE_SCHEMA_HTTP_ENDPOINT, {
   loaders: [new UrlLoader()],
 });
 
 const subscriptionClient = createClient({
-  url: 'ws://localhost:4001/graphql',
+  url: REMOTE_SCHEMA_WS_ENDPOINT,
   webSocketImpl: WebSocket,
   lazy: false,
 });
@@ -26,7 +29,7 @@ const httpExecutor = async ({
 }) => {
   const query = print(document);
 
-  const fetchResult = await fetch('http://localhost:4001/graphql', {
+  const fetchResult = await fetch(REMOTE_SCHEMA_HTTP_ENDPOINT, {
     method: 'POST',
     headers: {
       'Content-Type': 'application/json',
